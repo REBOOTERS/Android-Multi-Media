@@ -34,7 +34,7 @@ public final class MediaPlayerHolder implements PlayerAdapter {
 
     private final Context mContext;
     private MediaPlayer mMediaPlayer;
-    private int mResourceId;
+    private Object mResourceObj;
     private PlaybackInfoListener mPlaybackInfoListener;
     private ScheduledExecutorService mExecutor;
     private Runnable mSeekbarPositionUpdateTask;
@@ -74,19 +74,30 @@ public final class MediaPlayerHolder implements PlayerAdapter {
 
     // Implements PlaybackControl.
     @Override
-    public void loadMedia(int resourceId) {
-        mResourceId = resourceId;
+    public void loadMedia(Object resource) {
+        mResourceObj = resource;
 
         initializeMediaPlayer();
-
-        AssetFileDescriptor assetFileDescriptor =
-                mContext.getResources().openRawResourceFd(mResourceId);
-        try {
-            logToUI("load() {1. setDataSource}");
-            mMediaPlayer.setDataSource(assetFileDescriptor);
-        } catch (Exception e) {
-            logToUI(e.toString());
+        if (mResourceObj instanceof Integer) {
+            int id = (int) mResourceObj;
+            AssetFileDescriptor assetFileDescriptor =
+                    mContext.getResources().openRawResourceFd(id);
+            try {
+                logToUI("load() {1. setDataSource}");
+                mMediaPlayer.setDataSource(assetFileDescriptor);
+            } catch (Exception e) {
+                logToUI(e.toString());
+            }
+        } else if (mResourceObj instanceof String) {
+            String path = (String) mResourceObj;
+            try {
+                logToUI("load() {1. setDataSource}");
+                mMediaPlayer.setDataSource(path);
+            } catch (Exception e) {
+                logToUI(e.toString());
+            }
         }
+
 
         try {
             logToUI("load() {2. prepare}");
@@ -119,8 +130,15 @@ public final class MediaPlayerHolder implements PlayerAdapter {
     @Override
     public void play() {
         if (mMediaPlayer != null && !mMediaPlayer.isPlaying()) {
-            logToUI(String.format("playbackStart() %s",
-                    mContext.getResources().getResourceEntryName(mResourceId)));
+            if (mResourceObj instanceof Integer) {
+                int id = (int) mResourceObj;
+                logToUI(String.format("playbackStart() %s",
+                        mContext.getResources().getResourceEntryName(id)));
+            } else if (mResourceObj instanceof String) {
+                String res = (String) mResourceObj;
+                logToUI(String.format("playbackStart() %s", res));
+            }
+
             mMediaPlayer.start();
             if (mPlaybackInfoListener != null) {
                 mPlaybackInfoListener.onStateChanged(PlaybackInfoListener.State.PLAYING);
@@ -134,7 +152,7 @@ public final class MediaPlayerHolder implements PlayerAdapter {
         if (mMediaPlayer != null) {
             logToUI("playbackReset()");
             mMediaPlayer.reset();
-            loadMedia(mResourceId);
+            loadMedia(mResourceObj);
             if (mPlaybackInfoListener != null) {
                 mPlaybackInfoListener.onStateChanged(PlaybackInfoListener.State.RESET);
             }

@@ -21,7 +21,11 @@ package com.engineer.android.media.base;
  */
 public interface PlayerAdapter {
 
-    void loadMedia(int resourceId);
+//    void loadMedia(int resourceId);
+
+    void loadMedia(Object mediaRes);
+
+    default void loadMedia(String path){}
 
     void release();
 
