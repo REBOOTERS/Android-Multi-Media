@@ -17,7 +17,7 @@
 package com.engineer.android.media.base;
 
 /**
- * Allows {@link MainActivity} to control media playback of {@link MediaPlayerHolder}.
+ * Allows {@link com.engineer.android.media.ui.SimpleMediaPlayerActivity} to control media playback of {@link MediaPlayerHolder}.
  */
 public interface PlayerAdapter {
 

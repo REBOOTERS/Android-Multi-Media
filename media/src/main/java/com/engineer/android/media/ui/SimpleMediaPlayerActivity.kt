@@ -14,6 +14,10 @@ import kotlinx.android.synthetic.main.activity_simple_media_player.*
 
 const val TAG = "media"
 
+/**
+ * https://www.cnblogs.com/senior-engineer/p/7867626.html
+ */
+
 class SimpleMediaPlayerActivity : AppCompatActivity() {
 
     private lateinit var mPlayerAdapter: PlayerAdapter
