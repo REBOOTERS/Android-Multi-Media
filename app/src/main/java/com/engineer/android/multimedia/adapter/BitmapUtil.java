@@ -23,7 +23,7 @@ import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
 /**
- * @author zhuyongging @ Zhihu Inc.
+ * @author rookie
  * @since 09-18-2019
  */
 public class BitmapUtil {

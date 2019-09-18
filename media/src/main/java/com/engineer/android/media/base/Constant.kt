@@ -3,7 +3,7 @@ package com.engineer.android.media.base
 import com.engineer.android.media.R
 
 /**
- * @author zhuyongging @ Zhihu Inc.
+ * @author rookie
  * @since 09-05-2019
  */
 class Constant {

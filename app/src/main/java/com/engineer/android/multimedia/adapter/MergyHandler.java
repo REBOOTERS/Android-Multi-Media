@@ -5,7 +5,7 @@ import java.io.File;
 import heart.fun.creator.handler.CreatorExecuteResponseHander;
 
 /**
- * @author zhuyongging @ Zhihu Inc.
+ * @author rookie
  * @since 09-18-2019
  */
 public class MergyHandler implements CreatorExecuteResponseHander {

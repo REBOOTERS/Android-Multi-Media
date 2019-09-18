@@ -14,7 +14,7 @@ import java.util.Queue;
 import heart.fun.creator.IProviderExpand;
 
 /**
- * @author zhuyongging @ Zhihu Inc.
+ * @author rookie
  * @since 09-18-2019
  */
 public class BitmapProvider implements IProviderExpand<Bitmap> {

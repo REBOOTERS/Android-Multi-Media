@@ -11,7 +11,7 @@ import com.bumptech.glide.Priority
 
 
 /**
- * @author zhuyongging @ Zhihu Inc.
+ * @author rookie
  * @since 09-18-2019
  */
 class Glide4Engine : GlideEngine() {
