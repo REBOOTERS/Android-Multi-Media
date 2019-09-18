@@ -16,6 +16,8 @@ const val TAG = "media"
 
 /**
  * https://www.cnblogs.com/senior-engineer/p/7867626.html
+ *
+ * https://developer.android.google.cn/guide/topics/media/mediaplayer
  */
 
 class SimpleMediaPlayerActivity : AppCompatActivity() {

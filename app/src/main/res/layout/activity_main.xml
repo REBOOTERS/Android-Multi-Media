@@ -26,4 +26,9 @@
         style="@style/IndexButton"
         android:id="@+id/media"
         android:text="media" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/IndexButton"
+        android:id="@+id/creator"
+        android:text="creator" />
 </LinearLayout>
