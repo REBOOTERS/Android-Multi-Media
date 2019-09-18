@@ -130,7 +130,7 @@ public class AvcEncoder {
             }
             codecInfo = info;
         }
-        Log.d(TAG, "found" + codecInfo.getName() + "supporting" + " video/avc");
+        Log.d(TAG, "found " + codecInfo.getName() + "supporting" + " video/avc");
         MediaCodecInfo.CodecCapabilities capabilities = codecInfo.getCapabilitiesForType("video/avc");
         return capabilities.colorFormats;
     }

@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.engineer.android.multimedia.R
 import com.engineer.android.multimedia.adapter.BitmapProvider
 import com.engineer.android.multimedia.adapter.Glide4Engine
 import com.engineer.android.multimedia.adapter.MergyHandler
+import com.exozet.transcoder.mcvideoeditor.MediaCodecTranscoder
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
@@ -26,6 +28,8 @@ import heart.`fun`.creator.Processable
 import heart.`fun`.creator.encoder.AvcEncoder
 import heart.`fun`.creator.task.AvcExecuteAsyncTask
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_creator_root.*
 import java.io.File
 
@@ -64,9 +68,9 @@ class CreatorRootActivity : AppCompatActivity() {
         }
         val destPath = Environment.getExternalStorageDirectory()
             .absolutePath + File.separator + MP4_FILE
-        val srcPath = getFileStreamPath(MP4_FILE).path
+        val srcPath = getFileStreamPath("test").path
         val handler = MergyHandler(srcPath, "$destPath/$MP4_FILE")
-        AvcExecuteAsyncTask.execute(BitmapProvider(this, lists), 160, handler, srcPath)
+        AvcExecuteAsyncTask.execute(BitmapProvider(this, lists), 1, handler, srcPath)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -84,6 +88,35 @@ class CreatorRootActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("CheckResult")
+    private fun use_exozet(){
+
+        val path = Environment
+            .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            .absolutePath + File.separator + "Douban"
+
+        var out = Environment
+            .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            .absolutePath +File.separator + "test.mp4"
+
+        val frameFolder = Uri.parse(path)
+        val outputVideo = Uri.parse(out)
+        MediaCodecTranscoder.createVideoFromFrames(
+            frameFolder = frameFolder,
+            outputUri = outputVideo,
+            deleteFramesOnComplete = false
+        )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.e("exo","value==${it.duration}")
+            },{
+                it.printStackTrace()
+            })
+    }
+
+
+
     // <editor-fold defaultstate="collapsed" desc="initView">
     private fun initView() {
         list.layoutManager = GridLayoutManager(this, 3)
@@ -91,6 +124,7 @@ class CreatorRootActivity : AppCompatActivity() {
         list.adapter = adapter
         get.setOnClickListener { loadData() }
         go.setOnClickListener { go() }
+        exozet.setOnClickListener { use_exozet() }
     }
     // </editor-fold>
 

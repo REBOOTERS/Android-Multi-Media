@@ -17,6 +17,11 @@
         style="@style/IndexButton"
         android:text="go" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/exozet"
+        style="@style/IndexButton"
+        android:text="use exozet" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         style="@style/List" />
