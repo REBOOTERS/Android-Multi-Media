@@ -1,6 +1,11 @@
 package com.engineer.android.multimedia.adapter;
 
+import android.util.Log;
+
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.io.IOException;
 
 import heart.fun.creator.handler.CreatorExecuteResponseHander;
 
@@ -44,8 +49,12 @@ public class MergyHandler implements CreatorExecuteResponseHander {
         if (dfile.exists()) {
             dfile.delete();
         }
-//        new File(sPath).renameTo(dfile);
-        // TODO: 2019-09-18  copy file
-//        FileUtil.copyFile(sPath, dPath);
+
+        try {
+            FileUtils.copyFile(new File(sPath),dfile);
+            Log.e("creator", "onFinish: "+dfile.getAbsolutePath() );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
