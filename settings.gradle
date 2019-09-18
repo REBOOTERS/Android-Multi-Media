@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':media', ':creator'
 rootProject.name='Android-Multi-Media'
