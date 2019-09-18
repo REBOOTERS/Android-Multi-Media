@@ -22,7 +22,10 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
+import heart.`fun`.creator.Processable
+import heart.`fun`.creator.encoder.AvcEncoder
 import heart.`fun`.creator.task.AvcExecuteAsyncTask
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_creator_root.*
 import java.io.File
 
@@ -45,7 +48,8 @@ class CreatorRootActivity : AppCompatActivity() {
             .subscribe {
                 if (it) {
                     Matisse.from(this)
-                        .choose(MimeType.ofImage())
+                        .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
+                        .showSingleMediaType(true)
                         .imageEngine(Glide4Engine())
                         .maxSelectable(9)
                         .forResult(100)
@@ -53,6 +57,7 @@ class CreatorRootActivity : AppCompatActivity() {
             }
     }
 
+    @SuppressLint("CheckResult")
     private fun go() {
         if (datas.isEmpty()) {
             return
@@ -61,7 +66,7 @@ class CreatorRootActivity : AppCompatActivity() {
             .absolutePath + File.separator + MP4_FILE
         val srcPath = getFileStreamPath(MP4_FILE).path
         val handler = MergyHandler(srcPath, "$destPath/$MP4_FILE")
-        AvcExecuteAsyncTask.execute(BitmapProvider(this, lists), 16, handler, srcPath)
+        AvcExecuteAsyncTask.execute(BitmapProvider(this, lists), 160, handler, srcPath)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

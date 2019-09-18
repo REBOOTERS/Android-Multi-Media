@@ -108,10 +108,12 @@ public class AvcEncoder {
 
     public int[] getMediaCodecList() {
         //获取解码器列表
-        int numCodecs = MediaCodecList.getCodecCount();
+        MediaCodecInfo[] mediaCodecInfos = new MediaCodecList(MediaCodecList.ALL_CODECS).getCodecInfos();
         MediaCodecInfo codecInfo = null;
-        for (int i = 0; i < numCodecs && codecInfo == null; i++) {
-            MediaCodecInfo info = MediaCodecList.getCodecInfoAt(i);
+
+        for (int i = 0; i < mediaCodecInfos.length && codecInfo == null; i++) {
+
+            MediaCodecInfo info = mediaCodecInfos[i];
             if (!info.isEncoder()) {
                 continue;
             }
@@ -151,7 +153,7 @@ public class AvcEncoder {
             }
         }
 
-        if(mProvider instanceof IProviderExpand){
+        if (mProvider instanceof IProviderExpand) {
             ((IProviderExpand<Bitmap>) mProvider).finish();
         }
 
@@ -159,7 +161,7 @@ public class AvcEncoder {
 
     public void start() {
         try {
-            if(mProvider instanceof IProviderExpand){
+            if (mProvider instanceof IProviderExpand) {
                 ((IProviderExpand<Bitmap>) mProvider).prepare();
             }
 
@@ -287,7 +289,6 @@ public class AvcEncoder {
                     yuv420sp[vIndex++] = (byte) ((U < 0) ? 0 : ((U > 255) ? 255 : U));
                     yuv420sp[uIndex++] = (byte) ((V < 0) ? 0 : ((V > 255) ? 255 : V));
                 }
-
 
 
                 index++;
@@ -489,7 +490,7 @@ public class AvcEncoder {
                         bitmap = mProvider.next();
                     }
                     byte[] input = getNV12(getSize(bitmap.getWidth()), getSize(bitmap.getHeight()), bitmap);//AvcEncoder.this.getNV21(bitmap);
-                    if(mProvider instanceof IProviderExpand){
+                    if (mProvider instanceof IProviderExpand) {
                         ((IProviderExpand<Bitmap>) mProvider).finishItem(bitmap);
                     }
                     bitmap = null;

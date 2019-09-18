@@ -1,7 +1,6 @@
 package com.engineer.android.multimedia.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
@@ -18,24 +17,22 @@ import heart.fun.creator.IProviderExpand;
  * @since 09-18-2019
  */
 public class BitmapProvider implements IProviderExpand<Bitmap> {
-    private final List<String> adapter;
+    private final List<String> list;
     private int index = 0;
 
     private Queue<byte[]> queue;
 
     private int[] scaleSize;
 
-    public BitmapProvider(Activity activity, List<String> adapter) {
-        this.adapter = adapter;
+    public BitmapProvider(Activity activity, List<String> list) {
+        this.list = list;
         this.scaleSize = getSize(activity);
         queue = new LinkedList<>();
 
-        for (int i = 0; i < adapter.size(); i++) {
-            if (i < adapter.size()) {
-                Bitmap bitmap = genBitmap(i);
-                queue.add(BitmapUtil.getBytesByPNG(bitmap));
-                bitmap.recycle();
-            }
+        for (int i = 0; i < list.size(); i++) {
+            Bitmap bitmap = genBitmap(i);
+            queue.add(BitmapUtil.getBytesByPNG(bitmap));
+            bitmap.recycle();
         }
     }
 
@@ -82,16 +79,16 @@ public class BitmapProvider implements IProviderExpand<Bitmap> {
 
     @Override
     public boolean hasNext() {
-        return index < adapter.size();
+        return index < list.size();
     }
 
     @Override
     public int size() {
-        return adapter.size();
+        return list.size();
     }
 
     private Bitmap genBitmap(int index) {
-        String path = adapter.get(index);
+        String path = list.get(index);
         return BitmapUtil.decodeSampleBitmapFromResource(path, scaleSize[0], scaleSize[1]);
     }
 
