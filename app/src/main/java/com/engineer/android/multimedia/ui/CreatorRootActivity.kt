@@ -20,6 +20,7 @@ import com.engineer.android.multimedia.adapter.BitmapProvider
 import com.engineer.android.multimedia.adapter.Glide4Engine
 import com.engineer.android.multimedia.adapter.MergyHandler
 import com.exozet.transcoder.mcvideoeditor.MediaCodecTranscoder
+import com.exozet.transcoder.mcvideoeditor.MediaConfig
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
@@ -67,8 +68,8 @@ class CreatorRootActivity : AppCompatActivity() {
             return
         }
         val destPath = Environment.getExternalStorageDirectory()
-            .absolutePath + File.separator + MP4_FILE
-        val srcPath = getFileStreamPath("test").path
+            .absolutePath + File.separator + "testrere"
+        val srcPath = getFileStreamPath(MP4_FILE).path
         val handler = MergyHandler(srcPath, "$destPath/$MP4_FILE")
         AvcExecuteAsyncTask.execute(BitmapProvider(this, lists), 1, handler, srcPath)
     }
@@ -92,15 +93,16 @@ class CreatorRootActivity : AppCompatActivity() {
     private fun use_exozet(){
 
         val path = Environment
-            .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            .absolutePath + File.separator + "Douban"
+            .getExternalStorageDirectory()
+            .absolutePath + File.separator + "aaaa/"
 
         var out = Environment
-            .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            .absolutePath +File.separator + "test.mp4"
+            .getExternalStorageDirectory()
+            .absolutePath +File.separator + "aaaaa/test.mp4"
 
         val frameFolder = Uri.parse(path)
         val outputVideo = Uri.parse(out)
+
         MediaCodecTranscoder.createVideoFromFrames(
             frameFolder = frameFolder,
             outputUri = outputVideo,

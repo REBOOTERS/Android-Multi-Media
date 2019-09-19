@@ -30,7 +30,7 @@ public class MergyHandler implements CreatorExecuteResponseHander {
 
     @Override
     public void onProgress(Object message) {
-
+        Log.e("MeidaCodec", "onProgress: "+message );
     }
 
     @Override
