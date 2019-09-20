@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,24 +7,55 @@
     android:orientation="vertical"
     tools:context=".ui.CreatorRootActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/get"
-        style="@style/IndexButton"
-        android:text="get" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/go"
-        style="@style/IndexButton"
-        android:text="go" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/exozet"
-        style="@style/IndexButton"
-        android:text="use exozet" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        style="@style/List" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/get"
+            style="@style/IndexButton"
+            android:text="get" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/go"
+            style="@style/IndexButton"
+            android:text="go" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/exozet"
+            style="@style/IndexButton"
+            android:text="use exozet" />
+
+        <com.engineer.android.multimedia.adapter.MyJzvdStd
+            android:id="@+id/jz_video"
+            style="@style/Match_Match_10_15_10_15"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            style="@style/Match_Match_10_15_10_15" />
+
+
+    </LinearLayout>
+
+    <com.moos.library.CircleProgressView
+        android:id="@+id/progressView_circle"
+        android:background="#fff"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:circleBroken="true"
+        app:end_color="@color/purple_start"
+        app:end_progress="100"
+        app:isTracked="true"
+        tools:visibility="visible"
+        app:start_color="@color/purple_end"
+        app:start_progress="0"
+        app:track_width="12dp" />
+
+</FrameLayout>

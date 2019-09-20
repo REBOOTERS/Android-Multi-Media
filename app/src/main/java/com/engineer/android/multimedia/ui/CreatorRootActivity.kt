@@ -67,11 +67,32 @@ class CreatorRootActivity : AppCompatActivity() {
         if (datas.isEmpty()) {
             return
         }
+        progressView_circle.visibility = View.VISIBLE
         val destPath = Environment.getExternalStorageDirectory()
             .absolutePath + File.separator + "testrere"
         val srcPath = getFileStreamPath(MP4_FILE).path
         val handler = MergyHandler(srcPath, "$destPath/$MP4_FILE")
-        AvcExecuteAsyncTask.execute(BitmapProvider(this, lists), 1, handler, srcPath)
+        handler.setCallback(object : MergyHandler.Callback {
+            override fun progress(progress: Int) {
+                progressView_circle.progress = progress.toFloat()
+            }
+
+            override fun start() {
+                progressView_circle.visibility = View.VISIBLE
+            }
+
+            override fun end(path: String?) {
+                progressView_circle.visibility = View.GONE
+                jz_video.visibility = View.VISIBLE
+                jz_video.setUp(path, "test")
+            }
+
+        })
+        Observable.just("")
+            .map {
+                AvcExecuteAsyncTask.execute(BitmapProvider(this, lists), 1, handler, srcPath)
+            }.subscribeOn(Schedulers.io())
+            .subscribe()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -90,7 +111,7 @@ class CreatorRootActivity : AppCompatActivity() {
     }
 
     @SuppressLint("CheckResult")
-    private fun use_exozet(){
+    private fun use_exozet() {
 
         val path = Environment
             .getExternalStorageDirectory()
@@ -98,7 +119,7 @@ class CreatorRootActivity : AppCompatActivity() {
 
         var out = Environment
             .getExternalStorageDirectory()
-            .absolutePath +File.separator + "aaaaa/test.mp4"
+            .absolutePath + File.separator + "aaaaa/test.mp4"
 
         val frameFolder = Uri.parse(path)
         val outputVideo = Uri.parse(out)
@@ -111,12 +132,11 @@ class CreatorRootActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.e("exo","value==${it.duration}")
-            },{
+                Log.e("exo", "end==${it.duration}")
+            }, {
                 it.printStackTrace()
             })
     }
-
 
 
     // <editor-fold defaultstate="collapsed" desc="initView">

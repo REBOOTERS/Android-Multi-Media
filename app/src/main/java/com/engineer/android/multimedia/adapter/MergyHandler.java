@@ -30,7 +30,14 @@ public class MergyHandler implements CreatorExecuteResponseHander {
 
     @Override
     public void onProgress(Object message) {
-        Log.e("MeidaCodec", "onProgress: "+message );
+        Log.e("MeidaCodec", "onProgress: " + message);
+        if (message instanceof String) {
+            int progress = Integer.parseInt((String) message);
+            if (callback != null) {
+                callback.progress(progress);
+            }
+        }
+
     }
 
     @Override
@@ -40,7 +47,9 @@ public class MergyHandler implements CreatorExecuteResponseHander {
 
     @Override
     public void onStart() {
-
+        if (callback != null) {
+            callback.start();
+        }
     }
 
     @Override
@@ -51,10 +60,25 @@ public class MergyHandler implements CreatorExecuteResponseHander {
         }
 
         try {
-            FileUtils.copyFile(new File(sPath),dfile);
-            Log.e("creator", "onFinish: "+dfile.getAbsolutePath() );
+            FileUtils.copyFile(new File(sPath), dfile);
+            Log.e("creator", "onFinish: " + dfile.getAbsolutePath());
+            if (callback != null) {
+                callback.end(dPath);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public interface Callback {
+        void start();
+        void progress(int progress);
+        void end(String path);
+    }
+
+    private Callback callback;
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
     }
 }
