@@ -45,13 +45,6 @@ public class BitmapProvider implements IProviderExpand<Bitmap> {
         int heightPixs = metrics.heightPixels;
 
         try {
-            // 14 <= SDK_INT < 17
-            widthPixs = (Integer) Display.class.getMethod("getRawWidth").invoke(d);
-            heightPixs = (Integer) Display.class.getMethod("getRawHeight").invoke(d);
-        } catch (Exception e) {
-        }
-
-        try {
             Point realSize = new Point();
             Display.class.getMethod("getRealSize", Point.class).invoke(d, realSize);
             widthPixs = realSize.x;

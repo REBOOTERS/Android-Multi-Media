@@ -71,6 +71,7 @@ class CreatorRootActivity : AppCompatActivity() {
         val destPath = Environment.getExternalStorageDirectory()
             .absolutePath + File.separator + "testrere"
         val srcPath = getFileStreamPath(MP4_FILE).path
+
         val handler = MergyHandler(srcPath, "$destPath/$MP4_FILE")
         handler.setCallback(object : MergyHandler.Callback {
             override fun progress(progress: Int) {
