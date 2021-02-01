@@ -7,7 +7,7 @@ def ext = rootProject.ext
 
 android {
     compileSdkVersion ext.compileSdkVersion
-    buildToolsVersion "29.0.2"
+    buildToolsVersion ext.buildToolsVersion
 
 
     defaultConfig {

@@ -1,13 +1,14 @@
 apply plugin: 'com.android.library'
-
+apply from: file('../libs.gradle')
+def ext = rootProject.ext
 android {
-    compileSdkVersion 28
-
+    compileSdkVersion ext.compileSdkVersion
+    buildToolsVersion ext.buildToolsVersion
 
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion ext.minSdkVersion
+        targetSdkVersion ext.targetSdkVersion
         versionCode 2
         versionName "1.0.1"
 
