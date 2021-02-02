@@ -4,6 +4,7 @@ import android.media.MediaCodec
 import android.media.MediaFormat
 import android.util.Log
 import com.engineer.android.media.codec.interfaces.IDecoder
+import com.engineer.android.media.codec.interfaces.IDecoderStateListener
 import com.engineer.android.media.codec.interfaces.IExtractor
 import java.io.File
 import java.nio.ByteBuffer
@@ -14,7 +15,7 @@ import java.nio.ByteBuffer
  */
 private const val TAG = "BaseDecoder"
 
-abstract class BaseDecoder : IDecoder {
+abstract class BaseDecoder(private val mFilePath: String) : IDecoder {
     //-------------线程相关------------------------
     /**
      * 解码器是否在运行
@@ -59,7 +60,7 @@ abstract class BaseDecoder : IDecoder {
 
     private var mState = DecodeState.STOP
 
-    private var mStateListener: IDecoderStateListener? = null
+    protected var mStateListener: IDecoderStateListener? = null
 
     /**
      * 流数据是否结束
@@ -70,6 +71,10 @@ abstract class BaseDecoder : IDecoder {
 
     protected var mVideoHeight = 0
 
+    private var mDuration: Long = 0
+    private var mStartPos: Long = 0
+
+    private var mEndPos: Long = 0
 
     final override fun run() {
         mState = DecodeState.START
@@ -302,4 +307,68 @@ abstract class BaseDecoder : IDecoder {
      * 配置解码器
      */
     abstract fun configCodec(codec: MediaCodec, format: MediaFormat): Boolean
+
+
+    override fun pause() {
+        mState = DecodeState.DECODING
+    }
+
+    override fun goOn() {
+        mState = DecodeState.DECODING
+        notifyDecode()
+    }
+
+
+    override fun stop() {
+        mState = DecodeState.STOP
+        mIsRunning = false
+        notifyDecode()
+    }
+
+    override fun isDecoding(): Boolean {
+        return mState == DecodeState.DECODING
+    }
+
+    override fun isSeeking(): Boolean {
+        return mState == DecodeState.SEEKING
+    }
+
+    override fun isStop(): Boolean {
+        return mState == DecodeState.STOP
+    }
+
+
+    override fun setStateListener(l: IDecoderStateListener?) {
+        mStateListener = l
+    }
+
+    override fun getWidth(): Int {
+        return mVideoWidth
+    }
+
+    override fun getHeight(): Int {
+        return mVideoHeight
+    }
+
+    override fun getDuration(): Long {
+        return mDuration
+    }
+
+
+    override fun getRotationAngle(): Int {
+        return 0
+    }
+
+    override fun getMediaFormat(): MediaFormat? {
+        return mExtractor?.getFormat()
+    }
+
+    override fun getTrack(): Int {
+        return 0
+    }
+
+    override fun getFilePath(): String {
+        return mFilePath
+    }
+
 }

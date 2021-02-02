@@ -3,7 +3,8 @@
     package="com.engineer.android.media">
 
     <application>
-        <activity android:name=".ui.SimpleMediaPlayerActivity"></activity>
+        <activity android:name=".ui.SimpleCodecActivity"></activity>
+        <activity android:name=".ui.SimpleMediaPlayerActivity" />
     </application>
 
 </manifest>
