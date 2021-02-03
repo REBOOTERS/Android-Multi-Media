@@ -29,6 +29,11 @@
 
     <androidx.appcompat.widget.AppCompatButton
         style="@style/IndexButton"
+        android:id="@+id/decoder"
+        android:text="decoder" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/IndexButton"
         android:id="@+id/creator"
         android:text="creator" />
 </LinearLayout>

@@ -61,4 +61,7 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.66'
     implementation 'cn.jzvd:jiaozivideoplayer:7.0.5'
     implementation 'com.moos:Material-ProgressView:1.0.6'
+
+
+    implementation 'com.permissionx.guolindev:permissionx:1.4.0'
 }

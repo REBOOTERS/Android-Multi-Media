@@ -33,7 +33,7 @@ class MMExtractor(path: String) {
     fun readBuffer(byteBuffer: ByteBuffer): Int {
         byteBuffer.clear()
         selectSourceTrack()
-        val readSampleCount = mExtractor?.readSampleData(byteBuffer, 0) ?: -1
+        val readSampleCount = mExtractor!!.readSampleData(byteBuffer, 0)
         if (readSampleCount < 0) {
             return -1
         }
@@ -43,9 +43,9 @@ class MMExtractor(path: String) {
     }
 
     private fun selectSourceTrack() {
-        if (mVideoTrack > 0) {
+        if (mVideoTrack >= 0) {
             mExtractor?.selectTrack(mVideoTrack)
-        } else if (mAudioTrack > 0) {
+        } else if (mAudioTrack >= 0) {
             mExtractor?.selectTrack(mAudioTrack)
         }
     }
@@ -100,7 +100,7 @@ class MMExtractor(path: String) {
                 }
             }
         }
-        if (mVideoTrack > 0) {
+        if (mVideoTrack >= 0) {
             return mExtractor!!.getTrackFormat(mVideoTrack)
         }
         return null
@@ -120,7 +120,7 @@ class MMExtractor(path: String) {
                 }
             }
         }
-        if (mAudioTrack > 0) {
+        if (mAudioTrack >= 0) {
             return mExtractor!!.getTrackFormat(mAudioTrack)
         }
         return null

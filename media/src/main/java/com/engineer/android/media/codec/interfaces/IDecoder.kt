@@ -77,4 +77,9 @@ interface IDecoder : Runnable {
      * 获取解码的文件路径
      */
     fun getFilePath(): String
+
+    /**
+     * 当前帧时间，单位：ms
+     */
+    fun getCurTimeStamp(): Long
 }

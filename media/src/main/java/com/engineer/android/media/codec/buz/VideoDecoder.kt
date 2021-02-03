@@ -15,22 +15,16 @@ import java.nio.ByteBuffer
  * Created on 2021/2/2.
  * @author rookie
  */
-class VideoDecoder(path: String,
-                   sfv: SurfaceView?,
-                   surface: Surface?): BaseDecoder(path) {
+class VideoDecoder(
+    path: String,
+    sfv: SurfaceView?,
+    surface: Surface?
+) : BaseDecoder(path) {
 
     private val TAG = "VideoDecoder"
 
     private val mSurfaceView = sfv
     private var mSurface = surface
-
-    override fun render(outputBuffers: ByteBuffer, bufferInfo: MediaCodec.BufferInfo) {
-
-    }
-
-    override fun doneDecode() {
-        TODO("Not yet implemented")
-    }
 
     override fun check(): Boolean {
         if (mSurfaceView == null && mSurface == null) {
@@ -45,20 +39,16 @@ class VideoDecoder(path: String,
         return VideoExtractor(path)
     }
 
-    override fun initSpecParams(format: MediaFormat) {
-
-    }
-
-    override fun initRender(): Boolean {
-        return true
-    }
 
     override fun configCodec(codec: MediaCodec, format: MediaFormat): Boolean {
         if (mSurface != null) {
-            codec.configure(format,mSurface,null,0)
+            codec.configure(format, mSurface, null, 0)
             notifyDecode()
+        } else if (mSurfaceView?.holder?.surface != null) {
+            mSurface = mSurfaceView.holder?.surface
+            configCodec(codec, format)
         } else {
-            mSurfaceView?.holder?.addCallback(object :SurfaceHolder.Callback2 {
+            mSurfaceView?.holder?.addCallback(object : SurfaceHolder.Callback2 {
                 override fun surfaceCreated(holder: SurfaceHolder) {
                     mSurface = holder.surface
                     configCodec(codec, format)
@@ -85,60 +75,19 @@ class VideoDecoder(path: String,
         return true
     }
 
-    override fun pause() {
-        TODO("Not yet implemented")
+    override fun initSpecParams(format: MediaFormat) {
+
     }
 
-    override fun goOn() {
-        TODO("Not yet implemented")
+    override fun initRender(): Boolean {
+        return true
     }
 
-    override fun stop() {
-        TODO("Not yet implemented")
+    override fun render(outputBuffers: ByteBuffer, bufferInfo: MediaCodec.BufferInfo) {
+
     }
 
-    override fun isDecoding(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun isSeeking(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun isStop(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun setStateListener(l: IDecoderStateListener?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getWidth(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun getHeight(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun getDuration(): Long {
-        TODO("Not yet implemented")
-    }
-
-    override fun getRotationAngle(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun getMediaFormat(): MediaFormat? {
-        TODO("Not yet implemented")
-    }
-
-    override fun getTrack(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun getFilePath(): String {
-        TODO("Not yet implemented")
+    override fun doneDecode() {
     }
 
 }
