@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.media.R
 import com.engineer.android.media.codec.buz.AudioDecoder
 import com.engineer.android.media.codec.buz.VideoDecoder
+import com.engineer.android.media.toast
 import kotlinx.android.synthetic.main.activity_simple_codec.*
 import java.io.File
 import java.util.concurrent.Executors
@@ -24,6 +25,7 @@ class SimpleCodecActivity : AppCompatActivity() {
     private fun initPlayer() {
         val path = Environment.getExternalStorageDirectory().absolutePath + "/hero.mp4"
         if (File(path).exists().not()) {
+            "$path no exist".toast(this)
             return
         }
         //创建线程池
