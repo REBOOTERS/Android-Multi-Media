@@ -10,9 +10,11 @@ import com.engineer.android.media.codec.base.Frame
 import com.engineer.android.media.codec.buz.AudioDecoder
 import com.engineer.android.media.codec.buz.VideoDecoder
 import com.engineer.android.media.codec.interfaces.IDecoderStateListener
+import com.engineer.android.media.toHumanTime
 import com.engineer.android.media.toast
 import kotlinx.android.synthetic.main.activity_simple_codec.*
 import java.io.File
+import java.lang.StringBuilder
 import java.util.concurrent.Executors
 
 
@@ -46,6 +48,14 @@ class SimpleCodecActivity : AppCompatActivity() {
 
             override fun decoderReady(decodeJob: BaseDecoder?) {
                 Log.d(TAG, "decoderReady() called with: decodeJob = $decodeJob")
+
+                val info = StringBuilder()
+                info.append("path:").append(videoDecoder?.getFilePath()).append("\n")
+                val time = videoDecoder?.getDuration()?.toHumanTime()
+                info.append("duration:").append(time).append("\n")
+                runOnUiThread {
+                    media_info.text = info.toString()
+                }
             }
 
             override fun decoderRunning(decodeJob: BaseDecoder?) {
