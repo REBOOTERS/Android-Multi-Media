@@ -2,10 +2,14 @@ package com.engineer.android.media.ui
 
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.media.R
+import com.engineer.android.media.codec.base.BaseDecoder
+import com.engineer.android.media.codec.base.Frame
 import com.engineer.android.media.codec.buz.AudioDecoder
 import com.engineer.android.media.codec.buz.VideoDecoder
+import com.engineer.android.media.codec.interfaces.IDecoderStateListener
 import com.engineer.android.media.toast
 import kotlinx.android.synthetic.main.activity_simple_codec.*
 import java.io.File
@@ -13,6 +17,8 @@ import java.util.concurrent.Executors
 
 
 class SimpleCodecActivity : AppCompatActivity() {
+    private val TAG = "SimpleCodecActivity"
+
     private var videoDecoder: VideoDecoder? = null
     private var audioDecoder: AudioDecoder? = null
 
@@ -33,6 +39,40 @@ class SimpleCodecActivity : AppCompatActivity() {
 
         //创建视频解码器
         videoDecoder = VideoDecoder(path, sfv, null)
+        videoDecoder?.setStateListener(object : IDecoderStateListener {
+            override fun decoderPrepare(decodeJob: BaseDecoder?) {
+                Log.d(TAG, "decoderPrepare() called with: decodeJob = $decodeJob")
+            }
+
+            override fun decoderReady(decodeJob: BaseDecoder?) {
+                Log.d(TAG, "decoderReady() called with: decodeJob = $decodeJob")
+            }
+
+            override fun decoderRunning(decodeJob: BaseDecoder?) {
+                Log.d(TAG, "decoderRunning() called with: decodeJob = $decodeJob")
+            }
+
+            override fun decoderPause(decodeJob: BaseDecoder?) {
+                Log.d(TAG, "decoderPause() called with: decodeJob = $decodeJob")
+            }
+
+            override fun decodeOneFrame(decodeJob: BaseDecoder?, frame: Frame) {
+                Log.d(TAG, "decodeOneFrame() called with: decodeJob = $decodeJob, frame = $frame")
+            }
+
+            override fun decoderFinish(decodeJob: BaseDecoder?) {
+                Log.d(TAG, "decoderFinish() called with: decodeJob = $decodeJob")
+            }
+
+            override fun decoderDestroy(decodeJob: BaseDecoder?) {
+                Log.d(TAG, "decoderDestroy() called with: decodeJob = $decodeJob")
+            }
+
+            override fun decoderError(decodeJob: BaseDecoder?, msg: String) {
+                Log.d(TAG, "decoderError() called with: decodeJob = $decodeJob, msg = $msg")
+            }
+
+        })
         threadPool.execute(videoDecoder)
 
 //        //创建音频解码器

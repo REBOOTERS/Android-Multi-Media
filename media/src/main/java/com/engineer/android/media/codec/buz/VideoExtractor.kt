@@ -9,23 +9,23 @@ import java.nio.ByteBuffer
  * Created on 2021/2/2.
  * @author rookie
  */
-class VideoExtractor(path:String):IExtractor {
+class VideoExtractor(path: String) : IExtractor {
     private val mmExtractor = MMExtractor(path)
 
     override fun getFormat(): MediaFormat? {
-        return  mmExtractor.getVideoFormat()
+        return mmExtractor.getVideoFormat()
     }
 
     override fun readBuffer(byteBuffer: ByteBuffer): Int {
-        return  mmExtractor.readBuffer(byteBuffer)
+        return mmExtractor.readBuffer(byteBuffer)
     }
 
     override fun getCurrentTimestamp(): Long {
-        return  mmExtractor.getCurrentTimestamp()
+        return mmExtractor.getCurrentTimestamp()
     }
 
     override fun seek(pos: Long): Long {
-        return  mmExtractor.seek(pos)
+        return mmExtractor.seek(pos)
     }
 
     override fun setStartPos(pos: Long) {

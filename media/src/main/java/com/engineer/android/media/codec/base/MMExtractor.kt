@@ -27,7 +27,7 @@ class MMExtractor(path: String) {
 
     init {
         mExtractor = MediaExtractor()
-        mExtractor?.setDataSource(path!!)
+        mExtractor?.setDataSource(path)
     }
 
     fun readBuffer(byteBuffer: ByteBuffer): Int {

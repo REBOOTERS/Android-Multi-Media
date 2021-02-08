@@ -93,6 +93,7 @@ abstract class BaseDecoder(private val mFilePath: String) : IDecoder {
             return
         }
         Log.e(TAG, "run: start decode")
+        mStateListener?.decoderReady(this)
         try {
             while (mIsRunning) {
 
@@ -155,7 +156,7 @@ abstract class BaseDecoder(private val mFilePath: String) : IDecoder {
     }
 
     private fun pushBufferToDecoder(): Boolean {
-        var inputBufferIndex = mCodec!!.dequeueInputBuffer(1000)
+        val inputBufferIndex = mCodec!!.dequeueInputBuffer(1000)
         var isEndOfStream = false
 
         if (inputBufferIndex >= 0) {

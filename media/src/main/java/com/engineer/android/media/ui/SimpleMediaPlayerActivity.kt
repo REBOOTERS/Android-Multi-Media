@@ -1,10 +1,10 @@
 package com.engineer.android.media.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ScrollView
 import android.widget.SeekBar
+import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.media.R
 import com.engineer.android.media.base.Constant.Companion.MEDIA_RES_ID
 import com.engineer.android.media.base.MediaPlayerHolder
@@ -12,7 +12,6 @@ import com.engineer.android.media.base.PlaybackInfoListener
 import com.engineer.android.media.base.PlayerAdapter
 import kotlinx.android.synthetic.main.activity_simple_media_player.*
 
-const val TAG = "media"
 
 /**
  * https://www.cnblogs.com/senior-engineer/p/7867626.html
@@ -21,7 +20,7 @@ const val TAG = "media"
  */
 
 class SimpleMediaPlayerActivity : AppCompatActivity() {
-
+    private val TAG = "media"
     private lateinit var mPlayerAdapter: PlayerAdapter
     private var mUserIsSeeking = false
 
