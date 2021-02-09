@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 apply from: file('../libs.gradle')
 def ext = rootProject.ext
@@ -29,6 +28,10 @@ android {
     compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
 }

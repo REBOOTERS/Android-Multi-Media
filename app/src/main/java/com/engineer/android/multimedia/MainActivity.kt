@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         decoder.setOnClickListener {
-            startActivity(Intent(this,SimpleCodecActivity::class.java))
+            startActivity(Intent(this, SimpleCodecActivity::class.java))
         }
         creator.setOnClickListener {
             startActivity(Intent(this, CreatorRootActivity::class.java))
@@ -32,7 +32,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestPermission() {
         PermissionX.init(this)
-            .permissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .permissions(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
             .request { _, _, _ -> }
     }
 }

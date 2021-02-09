@@ -24,6 +24,10 @@ class AudioExtractor(path:String):IExtractor {
         return  mmExtractor.getCurrentTimestamp()
     }
 
+    override fun getSampleFlag(): Int {
+        return mmExtractor.getSampleFlag()
+    }
+
     override fun seek(pos: Long): Long {
         return  mmExtractor.seek(pos)
     }

@@ -3,6 +3,7 @@ package com.engineer.android.media
 import android.content.Context
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.widget.Toast
 
 const val TAG = "KotlinExt"
@@ -33,4 +34,16 @@ fun Int.toHumanTime(): String {
 
 private fun formatInt(input: Long): String {
     return if (input < 10) "0$input" else input.toString()
+}
+
+fun View?.show() {
+    if (this != null) {
+        this.visibility = View.VISIBLE
+    }
+}
+
+fun View?.gone() {
+    if (this != null) {
+        this.visibility = View.GONE
+    }
 }

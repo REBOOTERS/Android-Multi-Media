@@ -22,6 +22,9 @@ class MMExtractor(path: String) {
     /**当前帧时间戳*/
     private var mCurSampleTime: Long = 0
 
+    /**当前帧标志*/
+    private var mCurSampleFlag: Int = 0
+
     /**开始解码时间点*/
     private var mStartPos: Long = 0
 
@@ -38,6 +41,7 @@ class MMExtractor(path: String) {
             return -1
         }
         mCurSampleTime = mExtractor?.sampleTime ?: 0
+        mCurSampleFlag = mExtractor?.sampleFlags ?: 0
         mExtractor?.advance()
         return readSampleCount
     }
@@ -84,6 +88,10 @@ class MMExtractor(path: String) {
      */
     fun getCurrentTimestamp(): Long {
         return mCurSampleTime
+    }
+
+    fun getSampleFlag(): Int {
+        return  mCurSampleFlag
     }
 
     /**

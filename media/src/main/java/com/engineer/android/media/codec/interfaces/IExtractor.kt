@@ -23,6 +23,8 @@ interface IExtractor {
      */
     fun getCurrentTimestamp(): Long
 
+    fun getSampleFlag(): Int
+
     /**
      * Seek到指定位置，并返回实际帧的时间戳
      */

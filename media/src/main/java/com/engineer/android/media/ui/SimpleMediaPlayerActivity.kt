@@ -5,12 +5,11 @@ import android.util.Log
 import android.widget.ScrollView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import com.engineer.android.media.R
 import com.engineer.android.media.base.Constant.Companion.MEDIA_RES_ID
 import com.engineer.android.media.base.MediaPlayerHolder
 import com.engineer.android.media.base.PlaybackInfoListener
 import com.engineer.android.media.base.PlayerAdapter
-import kotlinx.android.synthetic.main.activity_simple_media_player.*
+import com.engineer.android.media.databinding.ActivitySimpleMediaPlayerBinding
 
 
 /**
@@ -24,10 +23,12 @@ class SimpleMediaPlayerActivity : AppCompatActivity() {
     private lateinit var mPlayerAdapter: PlayerAdapter
     private var mUserIsSeeking = false
 
+    private lateinit var viewBinding: ActivitySimpleMediaPlayerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_simple_media_player)
+        viewBinding = ActivitySimpleMediaPlayerBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
         initUI()
         initializeSeekbar()
@@ -36,9 +37,9 @@ class SimpleMediaPlayerActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        button_play.setOnClickListener { mPlayerAdapter.play() }
-        button_pause.setOnClickListener { mPlayerAdapter.pause() }
-        button_reset.setOnClickListener { mPlayerAdapter.reset() }
+        viewBinding.buttonPlay.setOnClickListener { mPlayerAdapter.play() }
+        viewBinding.buttonPause.setOnClickListener { mPlayerAdapter.pause() }
+        viewBinding.buttonReset.setOnClickListener { mPlayerAdapter.reset() }
     }
 
 
@@ -54,13 +55,13 @@ class SimpleMediaPlayerActivity : AppCompatActivity() {
     inner class PlaybackListener : PlaybackInfoListener() {
 
         override fun onDurationChanged(duration: Int) {
-            seekbar_audio.max = duration
+            viewBinding.seekbarAudio.max = duration
             Log.d(TAG, String.format("setPlaybackDuration: setMax(%d)", duration))
         }
 
         override fun onPositionChanged(position: Int) {
             if (!mUserIsSeeking) {
-                seekbar_audio.setProgress(position, true)
+                viewBinding.seekbarAudio.setProgress(position, true)
                 Log.d(TAG, String.format("setPlaybackPosition: setProgress(%d)", position))
             }
         }
@@ -73,17 +74,15 @@ class SimpleMediaPlayerActivity : AppCompatActivity() {
         override fun onPlaybackCompleted() {}
 
         override fun onLogUpdated(message: String) {
-            if (text_debug != null) {
-                text_debug.append(message)
-                text_debug.append("\n")
-                // Moves the scrollContainer focus to the end.
-                scroll_container.post { scroll_container.fullScroll(ScrollView.FOCUS_DOWN) }
-            }
+            viewBinding.textDebug.append(message)
+            viewBinding.textDebug.append("\n")
+            // Moves the scrollContainer focus to the end.
+            viewBinding.scrollContainer.post { viewBinding.scrollContainer.fullScroll(ScrollView.FOCUS_DOWN) }
         }
     }
 
     private fun initializeSeekbar() {
-        seekbar_audio.setOnSeekBarChangeListener(
+        viewBinding.seekbarAudio.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
                 var userSelectedPosition = 0
 
