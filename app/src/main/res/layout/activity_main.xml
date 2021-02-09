@@ -23,17 +23,22 @@
     tools:ignore="HardcodedText">
 
     <androidx.appcompat.widget.AppCompatButton
-        style="@style/IndexButton"
         android:id="@+id/media"
+        style="@style/IndexButton"
         android:text="media" />
 
     <androidx.appcompat.widget.AppCompatButton
-        style="@style/IndexButton"
         android:id="@+id/decoder"
+        style="@style/IndexButton"
         android:text="decoder" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/opgl"
         style="@style/IndexButton"
+        android:text="opgles" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/creator"
+        style="@style/IndexButton"
         android:text="creator" />
 </LinearLayout>

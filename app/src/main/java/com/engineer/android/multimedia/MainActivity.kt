@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.engineer.android.media.opgles.SimpleRenderActivity
 import com.engineer.android.media.ui.SimpleCodecActivity
 import com.engineer.android.media.ui.SimpleMediaPlayerActivity
 import com.engineer.android.multimedia.ui.CreatorRootActivity
@@ -25,6 +26,9 @@ class MainActivity : AppCompatActivity() {
         }
         creator.setOnClickListener {
             startActivity(Intent(this, CreatorRootActivity::class.java))
+        }
+        opgl.setOnClickListener {
+            startActivity(Intent(this, SimpleRenderActivity::class.java))
         }
 
         requestPermission()
