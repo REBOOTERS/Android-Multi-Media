@@ -1,5 +1,6 @@
 package com.engineer.android.media.base
 
+import android.os.Environment
 import com.engineer.android.media.R
 
 /**
@@ -9,5 +10,7 @@ import com.engineer.android.media.R
 class Constant {
     companion object {
         val MEDIA_RES_ID = R.raw.jazz_in_paris
+
+        val originalPath = Environment.getExternalStorageDirectory().absolutePath + "/hero.mp4"
     }
 }

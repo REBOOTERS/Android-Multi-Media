@@ -3,7 +3,8 @@
     package="com.engineer.android.media">
 
     <application>
-        <activity android:name=".opgles.SimpleRenderActivity"></activity>
+        <activity android:name=".opgles.SimpleGLVideoRenderActivity"></activity>
+        <activity android:name=".opgles.SimpleRenderActivity" />
         <activity
             android:name=".ui.SimpleCodecActivity"
             android:exported="true" />

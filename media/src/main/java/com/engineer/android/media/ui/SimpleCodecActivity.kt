@@ -1,12 +1,10 @@
 package com.engineer.android.media.ui
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.engineer.android.media.base.Constant.Companion.originalPath
 import com.engineer.android.media.codec.base.BaseDecoder
 import com.engineer.android.media.codec.base.Frame
 import com.engineer.android.media.codec.buz.AudioDecoder
@@ -19,14 +17,13 @@ import com.engineer.android.media.show
 import com.engineer.android.media.toHumanTime
 import com.engineer.android.media.toast
 import java.io.File
-import java.lang.StringBuilder
 import java.util.concurrent.Executors
 
 
 class SimpleCodecActivity : AppCompatActivity() {
     private val TAG = "SimpleCodecActivity"
 
-    private val originalPath = Environment.getExternalStorageDirectory().absolutePath + "/hero.mp4"
+
     private var repackPath = ""
     private var videoDecoder: VideoDecoder? = null
     private var audioDecoder: AudioDecoder? = null

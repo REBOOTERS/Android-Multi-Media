@@ -32,10 +32,25 @@
         style="@style/IndexButton"
         android:text="decoder" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#000" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/opgl"
         style="@style/IndexButton"
-        android:text="opgles" />
+        android:text="opgles-basic" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/opgl_video"
+        style="@style/IndexButton"
+        android:text="opgles-video-basic" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#000" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/creator"

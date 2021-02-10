@@ -71,7 +71,7 @@ class AudioDecoder(path: String) : BaseDecoder(path) {
             AudioTrack.MODE_STREAM
         ) //播放模式：数据流动态写入，另一种是一次性写入
 
-        mAudioTrack!!.play()
+        mAudioTrack?.play()
         return true
     }
 
