@@ -8,6 +8,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
+
 class VideoDrawer : IDrawer {
 
     // 顶点坐标
@@ -26,10 +27,22 @@ class VideoDrawer : IDrawer {
         1f, 0f
     )
 
+    private var mWorldWidth: Int = -1
+    private var mWorldHeight: Int = -1
+    private var mVideoWidth: Int = -1
+    private var mVideoHeight: Int = -1
+
     private var mTextureId: Int = -1
+
+    private var mSurfaceTexture: SurfaceTexture? = null
+
+    private var mSftCb: ((SurfaceTexture) -> Unit)? = null
 
     //OpenGL程序ID
     private var mProgram: Int = -1
+
+    //矩阵变换接收者
+    private var mVertexMatrixHandler: Int = -1
 
     // 顶点坐标接收者
     private var mVertexPosHandler: Int = -1
@@ -40,33 +53,15 @@ class VideoDrawer : IDrawer {
     // 纹理接收者
     private var mTextureHandler: Int = -1
 
+    // 半透值接收者
+    private var mAlphaHandler: Int = -1
+
     private lateinit var mVertexBuffer: FloatBuffer
     private lateinit var mTextureBuffer: FloatBuffer
 
-    private var mSurfaceTexture: SurfaceTexture? = null
-    private var mSurfaceTextureCallback: ((SurfaceTexture) -> Unit)? = null
-
-
-    private var mWorldWidth: Int = -1
-    private var mWorldHeight: Int = -1
-    private var mVideoWidth: Int = -1
-    private var mVideoHeight: Int = -1
-
-    //坐标变换矩阵
     private var mMatrix: FloatArray? = null
 
-    //矩阵变换接收者
-    private var mVertexMatrixHandler: Int = -1
-
-    override fun setVideoSize(videoW: Int, videoH: Int) {
-        mVideoWidth = videoW
-        mVideoHeight = videoH
-    }
-
-    override fun setWorldSize(worldW: Int, worldH: Int) {
-        mWorldWidth = worldW
-        mWorldHeight = worldH
-    }
+    private var mAlpha = 1f
 
     init {
         //【步骤1: 初始化顶点坐标】
@@ -93,7 +88,8 @@ class VideoDrawer : IDrawer {
     private fun initDefMatrix() {
         if (mMatrix != null) return
         if (mVideoWidth != -1 && mVideoHeight != -1 &&
-            mWorldWidth != -1 && mWorldHeight != -1) {
+            mWorldWidth != -1 && mWorldHeight != -1
+        ) {
             mMatrix = FloatArray(16)
             var prjMatrix = FloatArray(16)
             val originRatio = mVideoWidth / mVideoHeight.toFloat()
@@ -149,18 +145,32 @@ class VideoDrawer : IDrawer {
         }
     }
 
+    override fun setVideoSize(videoW: Int, videoH: Int) {
+        mVideoWidth = videoW
+        mVideoHeight = videoH
+    }
+
+    override fun setWorldSize(worldW: Int, worldH: Int) {
+        mWorldWidth = worldW
+        mWorldHeight = worldH
+    }
+
+    override fun setAlpha(alpha: Float) {
+        mAlpha = alpha
+    }
 
     override fun setTextureID(id: Int) {
         mTextureId = id
         mSurfaceTexture = SurfaceTexture(id)
-        mSurfaceTextureCallback?.let {
-            it(mSurfaceTexture!!)
-        }
+        mSftCb?.invoke(mSurfaceTexture!!)
+    }
+
+    override fun getSurfaceTexture(cb: (st: SurfaceTexture) -> Unit) {
+        mSftCb = cb
     }
 
     override fun draw() {
         if (mTextureId != -1) {
-
             initDefMatrix()
             //【步骤2: 创建、编译并启动OpenGL着色器】
             createGLPrg()
@@ -187,12 +197,11 @@ class VideoDrawer : IDrawer {
             //连接到着色器程序
             GLES20.glLinkProgram(mProgram)
 
-            //【新增2: 获取顶点着色器中的矩阵变量】
             mVertexMatrixHandler = GLES20.glGetUniformLocation(mProgram, "uMatrix")
-
             mVertexPosHandler = GLES20.glGetAttribLocation(mProgram, "aPosition")
             mTextureHandler = GLES20.glGetUniformLocation(mProgram, "uTexture")
             mTexturePosHandler = GLES20.glGetAttribLocation(mProgram, "aCoordinate")
+            mAlphaHandler = GLES20.glGetAttribLocation(mProgram, "alpha")
         }
         //使用OpenGL程序
         GLES20.glUseProgram(mProgram)
@@ -232,18 +241,11 @@ class VideoDrawer : IDrawer {
         mSurfaceTexture?.updateTexImage()
     }
 
-    override fun getSurfaceTexture(cb: (st: SurfaceTexture) -> Unit) {
-        mSurfaceTextureCallback = cb
-    }
-
     private fun doDraw() {
         //启用顶点的句柄
         GLES20.glEnableVertexAttribArray(mVertexPosHandler)
         GLES20.glEnableVertexAttribArray(mTexturePosHandler)
-
-        // 【新增3: 将变换矩阵传递给顶点着色器】
         GLES20.glUniformMatrix4fv(mVertexMatrixHandler, 1, false, mMatrix, 0)
-
         //设置着色器参数， 第二个参数表示一个顶点包含的数据数量，这里为xy，所以为2
         GLES20.glVertexAttribPointer(mVertexPosHandler, 2, GLES20.GL_FLOAT, false, 0, mVertexBuffer)
         GLES20.glVertexAttribPointer(
@@ -254,6 +256,7 @@ class VideoDrawer : IDrawer {
             0,
             mTextureBuffer
         )
+        GLES20.glVertexAttrib1f(mAlphaHandler, mAlpha)
         //开始绘制
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4)
     }
@@ -268,38 +271,29 @@ class VideoDrawer : IDrawer {
 
     private fun getVertexShader(): String {
         return "attribute vec4 aPosition;" +
-                //【新增4: 矩阵变量】
+                "precision mediump float;" +
                 "uniform mat4 uMatrix;" +
                 "attribute vec2 aCoordinate;" +
                 "varying vec2 vCoordinate;" +
+                "attribute float alpha;" +
+                "varying float inAlpha;" +
                 "void main() {" +
-                //【新增5: 坐标变换】
-                "    gl_Position = aPosition*uMatrix;" +
+                "    gl_Position = uMatrix*aPosition;" +
                 "    vCoordinate = aCoordinate;" +
+                "    inAlpha = alpha;" +
                 "}"
     }
-
-//    private fun getFragmentShader(): String {
-//        //一定要加换行"\n"，否则会和下一行的precision混在一起，导致编译出错
-//        return "#extension GL_OES_EGL_image_external : require\n" +
-//                "precision mediump float;" +
-//                "varying vec2 vCoordinate;" +
-//                "uniform samplerExternalOES uTexture;" +
-//                "void main() {" +
-//                "  gl_FragColor=texture2D(uTexture, vCoordinate);" +
-//                "}"
-//    }
 
     private fun getFragmentShader(): String {
         //一定要加换行"\n"，否则会和下一行的precision混在一起，导致编译出错
         return "#extension GL_OES_EGL_image_external : require\n" +
                 "precision mediump float;" +
                 "varying vec2 vCoordinate;" +
+                "varying float inAlpha;" +
                 "uniform samplerExternalOES uTexture;" +
                 "void main() {" +
                 "  vec4 color = texture2D(uTexture, vCoordinate);" +
-                "  float gray = (color.r + color.g + color.b)/3.0;" +
-                "  gl_FragColor = vec4(gray, gray, gray, 1.0);" +
+                "  gl_FragColor = vec4(color.r, color.g, color.b, inAlpha);" +
                 "}"
     }
 
@@ -311,5 +305,15 @@ class VideoDrawer : IDrawer {
         GLES20.glCompileShader(shader)
 
         return shader
+    }
+
+    fun translate(dx: Float, dy: Float) {
+        Matrix.translateM(mMatrix, 0, dx * mWidthRatio * 2, -dy * mHeightRatio * 2, 0f)
+    }
+
+    fun scale(sx: Float, sy: Float) {
+        Matrix.scaleM(mMatrix, 0, sx, sy, 1f)
+        mWidthRatio /= sx
+        mHeightRatio /= sy
     }
 }

@@ -47,6 +47,11 @@
         style="@style/IndexButton"
         android:text="opgles-video-basic" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/opgl_video_multi"
+        style="@style/IndexButton"
+        android:text="opgles-video-multi" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"

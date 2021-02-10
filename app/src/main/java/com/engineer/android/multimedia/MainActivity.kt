@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.engineer.android.media.opgles.MultiGLVideoRenderActivity
 import com.engineer.android.media.opgles.SimpleGLVideoRenderActivity
 import com.engineer.android.media.opgles.SimpleRenderActivity
 import com.engineer.android.media.ui.SimpleCodecActivity
@@ -34,6 +35,10 @@ class MainActivity : AppCompatActivity() {
 
         opgl_video.setOnClickListener {
             startActivity(Intent(this, SimpleGLVideoRenderActivity::class.java))
+        }
+
+        opgl_video_multi.setOnClickListener {
+            startActivity(Intent(this, MultiGLVideoRenderActivity::class.java))
         }
 
         requestPermission()
