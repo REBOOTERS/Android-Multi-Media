@@ -7,39 +7,47 @@ import android.os.Bundle
 import com.engineer.android.media.opgles.MultiGLVideoRenderActivity
 import com.engineer.android.media.opgles.SimpleGLVideoRenderActivity
 import com.engineer.android.media.opgles.SimpleRenderActivity
+import com.engineer.android.media.ui.FFmpegActivity
 import com.engineer.android.media.ui.SimpleCodecActivity
 import com.engineer.android.media.ui.SimpleMediaPlayerActivity
+import com.engineer.android.multimedia.databinding.ActivityMainBinding
 import com.engineer.android.multimedia.ui.CreatorRootActivity
 import com.permissionx.guolindev.PermissionX
-import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var viewBinding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        viewBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
-        media.setOnClickListener {
+        viewBinding.media.setOnClickListener {
             startActivity(Intent(this, SimpleMediaPlayerActivity::class.java))
         }
 
-        decoder.setOnClickListener {
+        viewBinding.decoder.setOnClickListener {
             startActivity(Intent(this, SimpleCodecActivity::class.java))
         }
-        creator.setOnClickListener {
+        viewBinding.creator.setOnClickListener {
             startActivity(Intent(this, CreatorRootActivity::class.java))
         }
-        opgl.setOnClickListener {
+        viewBinding.opgl.setOnClickListener {
             startActivity(Intent(this, SimpleRenderActivity::class.java))
         }
 
-        opgl_video.setOnClickListener {
+        viewBinding.opglVideo.setOnClickListener {
             startActivity(Intent(this, SimpleGLVideoRenderActivity::class.java))
         }
 
-        opgl_video_multi.setOnClickListener {
+        viewBinding.opglVideoMulti.setOnClickListener {
             startActivity(Intent(this, MultiGLVideoRenderActivity::class.java))
         }
+
+        viewBinding.ffmpeg.setOnClickListener {
+            startActivity(Intent(this, FFmpegActivity::class.java))
+        }
+
 
         requestPermission()
     }

@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
 
 apply from: file('../libs.gradle')
 def ext = rootProject.ext
@@ -10,6 +7,7 @@ def ext = rootProject.ext
 android {
     compileSdkVersion ext.compileSdkVersion
     buildToolsVersion ext.buildToolsVersion
+
     defaultConfig {
         applicationId "com.engineer.android.multimedia"
         minSdkVersion ext.minSdkVersion
@@ -17,6 +15,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
     }
     buildTypes {
         release {
@@ -28,6 +30,15 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+
+
+    buildFeatures {
+        viewBinding true
+    }
+
+//    packagingOptions {
+//        pickFirst 'lib/*/libavutil.so'
+//    }
 }
 
 dependencies {
@@ -47,7 +58,6 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${ext.appcompat}"
     implementation "androidx.core:core-ktx:${ext.core_ktx}"
     implementation "androidx.constraintlayout:constraintlayout:${ext.constraintlayout}"
-
 
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'

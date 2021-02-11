@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -13,36 +12,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.engineer.android.multimedia.R
 import com.engineer.android.multimedia.adapter.BitmapProvider
 import com.engineer.android.multimedia.adapter.Glide4Engine
 import com.engineer.android.multimedia.adapter.MergyHandler
+import com.engineer.android.multimedia.databinding.ActivityCreatorRootBinding
 import com.exozet.transcoder.mcvideoeditor.MediaCodecTranscoder
-import com.exozet.transcoder.mcvideoeditor.MediaConfig
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
-import com.zhihu.matisse.engine.impl.GlideEngine
-import heart.`fun`.creator.Processable
-import heart.`fun`.creator.encoder.AvcEncoder
 import heart.`fun`.creator.task.AvcExecuteAsyncTask
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_creator_root.*
 import java.io.File
 
 class CreatorRootActivity : AppCompatActivity() {
-
+    private lateinit var viewBinding: ActivityCreatorRootBinding
     private var datas = ArrayList<Uri>()
     private var lists = ArrayList<String>()
     private lateinit var adapter: ImageListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_creator_root)
+        viewBinding = ActivityCreatorRootBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
         initView()
     }
 
@@ -67,7 +64,7 @@ class CreatorRootActivity : AppCompatActivity() {
         if (datas.isEmpty()) {
             return
         }
-        progressView_circle.visibility = View.VISIBLE
+        viewBinding.progressViewCircle.visibility = View.VISIBLE
         val destPath = Environment.getExternalStorageDirectory()
             .absolutePath + File.separator + "testrere"
         val srcPath = getFileStreamPath(MP4_FILE).path
@@ -75,17 +72,17 @@ class CreatorRootActivity : AppCompatActivity() {
         val handler = MergyHandler(srcPath, "$destPath/$MP4_FILE")
         handler.setCallback(object : MergyHandler.Callback {
             override fun progress(progress: Int) {
-                progressView_circle.progress = progress.toFloat()
+                viewBinding.progressViewCircle.progress = progress.toFloat()
             }
 
             override fun start() {
-                progressView_circle.visibility = View.VISIBLE
+                viewBinding.progressViewCircle.visibility = View.VISIBLE
             }
 
             override fun end(path: String?) {
-                progressView_circle.visibility = View.GONE
-                jz_video.visibility = View.VISIBLE
-                jz_video.setUp(path, "test")
+                viewBinding.progressViewCircle.visibility = View.GONE
+                viewBinding.jzVideo.visibility = View.VISIBLE
+                viewBinding.jzVideo.setUp(path, "test")
             }
 
         })
@@ -142,12 +139,12 @@ class CreatorRootActivity : AppCompatActivity() {
 
     // <editor-fold defaultstate="collapsed" desc="initView">
     private fun initView() {
-        list.layoutManager = GridLayoutManager(this, 3)
+        viewBinding.list.layoutManager = GridLayoutManager(this, 3)
         adapter = ImageListAdapter(datas)
-        list.adapter = adapter
-        get.setOnClickListener { loadData() }
-        go.setOnClickListener { go() }
-        exozet.setOnClickListener { use_exozet() }
+        viewBinding.list.adapter = adapter
+        viewBinding.get.setOnClickListener { loadData() }
+        viewBinding.go.setOnClickListener { go() }
+        viewBinding.exozet.setOnClickListener { use_exozet() }
     }
     // </editor-fold>
 

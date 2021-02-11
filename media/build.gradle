@@ -8,7 +8,6 @@ android {
     compileSdkVersion ext.compileSdkVersion
     buildToolsVersion ext.buildToolsVersion
 
-
     defaultConfig {
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
@@ -17,6 +16,13 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+
+        // 1) CMake 编译配置
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags ""
+//            }
+//        }
     }
 
     buildTypes {
@@ -33,6 +39,15 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+
+    // 2) 配置 CMakeLists 路径
+//    externalNativeBuild {
+//        cmake {
+//            path "src/main/cpp/CMakeLists.txt"
+//            version "3.10.2"
+//        }
+//    }
 
 }
 
