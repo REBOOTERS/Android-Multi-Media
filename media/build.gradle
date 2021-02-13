@@ -18,11 +18,14 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
 
         // 1) CMake 编译配置
-//        externalNativeBuild {
-//            cmake {
-//                cppFlags ""
-//            }
-//        }
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
     }
 
     buildTypes {
@@ -42,12 +45,12 @@ android {
 
 
     // 2) 配置 CMakeLists 路径
-//    externalNativeBuild {
-//        cmake {
-//            path "src/main/cpp/CMakeLists.txt"
-//            version "3.10.2"
-//        }
-//    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
 
 }
 

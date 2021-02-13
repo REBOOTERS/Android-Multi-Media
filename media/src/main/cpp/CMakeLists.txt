@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 
 # 支持gnu++11
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 #
 # 1. 定义so库和头文件所在目录，方面后面使用
 set(ffmpeg_lib_dir ${CMAKE_SOURCE_DIR}/../nativeLibs/${ANDROID_ABI})
@@ -66,7 +66,7 @@ find_library( # Sets the name of the path variable.
 
         # Specifies the name of the NDK library that
         # you want CMake to locate.
-        log )
+        log)
 
 # 配置目标so库编译信息
 add_library( # Sets the name of the library.
@@ -86,14 +86,14 @@ target_link_libraries(
         native-lib
 
         # 4. 连接 FFmpeg 相关的库
-        avutil
-        swresample
-        avcodec
-        avfilter
-        swscale
-        avformat
-        avdevice
+                avutil
+                swresample
+                avcodec
+                avfilter
+                swscale
+                avformat
+                avdevice
 
         # Links the target library to the log library
         # included in the NDK.
-        ${log-lib} )
+        ${log-lib})

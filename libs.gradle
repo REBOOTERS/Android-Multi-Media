@@ -3,7 +3,7 @@ ext {
     appcompat = "1.2.0"
     constraintlayout = "2.0.4"
 
-    kotlin_version = "1.4.21"
+    kotlin_version = "1.4.30"
     gradle_version = '4.1.2'
 
 
