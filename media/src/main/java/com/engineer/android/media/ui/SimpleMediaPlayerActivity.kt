@@ -2,14 +2,17 @@ package com.engineer.android.media.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.SurfaceHolder
 import android.widget.ScrollView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import com.engineer.android.media.base.Constant.Companion.MEDIA_RES_ID
+import com.engineer.android.media.base.Constant
 import com.engineer.android.media.base.MediaPlayerHolder
 import com.engineer.android.media.base.PlaybackInfoListener
 import com.engineer.android.media.base.PlayerAdapter
 import com.engineer.android.media.databinding.ActivitySimpleMediaPlayerBinding
+import com.engineer.android.media.show
+import com.engineer.android.media.toast
 
 
 /**
@@ -25,11 +28,17 @@ class SimpleMediaPlayerActivity : AppCompatActivity() {
 
     private lateinit var viewBinding: ActivitySimpleMediaPlayerBinding
 
+    private lateinit var surfaceHolder: SurfaceHolder
+    private var resId: Int =
+        intArrayOf(Constant.AUDIO_RES_ID, Constant.VIDEO_RES_ID).random()
+    private val playVideo
+        get() = (resId == Constant.VIDEO_RES_ID)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivitySimpleMediaPlayerBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-
+        surfaceHolder = viewBinding.surfaceView.holder
         initUI()
         initializeSeekbar()
         initializePlaybackController()
@@ -37,7 +46,12 @@ class SimpleMediaPlayerActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        viewBinding.buttonPlay.setOnClickListener { mPlayerAdapter.play() }
+        viewBinding.buttonPlay.setOnClickListener {
+            if (playVideo) {
+                mPlayerAdapter.setDisplay(surfaceHolder)
+            }
+            mPlayerAdapter.play()
+        }
         viewBinding.buttonPause.setOnClickListener { mPlayerAdapter.pause() }
         viewBinding.buttonReset.setOnClickListener { mPlayerAdapter.reset() }
     }
@@ -105,8 +119,14 @@ class SimpleMediaPlayerActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        mPlayerAdapter.loadMedia(MEDIA_RES_ID)
+        "resId =${resources.getResourceEntryName(resId)}: ${resources.getResourceName(resId)}".toast(
+            this
+        )
+        mPlayerAdapter.loadMedia(resId)
         Log.d(TAG, "onStart: create MediaPlayer")
+        if (playVideo) {
+            viewBinding.surfaceView.show()
+        }
     }
 
     override fun onStop() {

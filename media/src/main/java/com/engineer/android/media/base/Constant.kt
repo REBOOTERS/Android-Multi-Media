@@ -9,7 +9,8 @@ import com.engineer.android.media.R
  */
 class Constant {
     companion object {
-        val MEDIA_RES_ID = R.raw.jazz_in_paris
+        val AUDIO_RES_ID = R.raw.jazz_in_paris
+        val VIDEO_RES_ID = R.raw.video
 
         val originalPath = Environment.getExternalStorageDirectory().absolutePath + "/hero.mp4"
         val videoPath = Environment.getExternalStorageDirectory().absolutePath + "/star.mp4"

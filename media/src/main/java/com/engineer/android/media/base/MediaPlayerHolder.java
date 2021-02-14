@@ -18,7 +18,11 @@ package com.engineer.android.media.base;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
+import android.util.Log;
+import android.view.SurfaceHolder;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -53,16 +57,18 @@ public final class MediaPlayerHolder implements PlayerAdapter {
     private void initializeMediaPlayer() {
         if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer();
-            mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    stopUpdatingCallbackWithPosition(true);
-                    logToUI("MediaPlayer playback completed");
-                    if (mPlaybackInfoListener != null) {
-                        mPlaybackInfoListener.onStateChanged(PlaybackInfoListener.State.COMPLETED);
-                        mPlaybackInfoListener.onPlaybackCompleted();
-                    }
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mMediaPlayer.setOnCompletionListener(mediaPlayer -> {
+                stopUpdatingCallbackWithPosition(true);
+                logToUI("MediaPlayer playback completed");
+                if (mPlaybackInfoListener != null) {
+                    mPlaybackInfoListener.onStateChanged(PlaybackInfoListener.State.COMPLETED);
+                    mPlaybackInfoListener.onPlaybackCompleted();
                 }
+            });
+            mMediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                Log.d("TAG", "onError() called with: mp = [" + mp + "], what = [" + what + "], extra = [" + extra + "]");
+                return false;
             });
             logToUI("mMediaPlayer = new MediaPlayer()");
         }
@@ -175,8 +181,17 @@ public final class MediaPlayerHolder implements PlayerAdapter {
     public void seekTo(int position) {
         if (mMediaPlayer != null) {
             logToUI(String.format("seekTo() %d ms", position));
-            mMediaPlayer.seekTo(position);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                mMediaPlayer.seekTo(position, MediaPlayer.SEEK_CLOSEST);
+            } else {
+                mMediaPlayer.seekTo(position);
+            }
         }
+    }
+
+    @Override
+    public void setDisplay(SurfaceHolder holder) {
+        mMediaPlayer.setDisplay(holder);
     }
 
     /**

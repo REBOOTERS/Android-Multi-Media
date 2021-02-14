@@ -10,6 +10,7 @@ import com.engineer.android.media.opgles.SimpleRenderActivity
 import com.engineer.android.media.ui.FFmpegActivity
 import com.engineer.android.media.ui.SimpleCodecActivity
 import com.engineer.android.media.ui.SimpleMediaPlayerActivity
+import com.engineer.android.media.ui.SimpleVideoViewActivity
 import com.engineer.android.multimedia.databinding.ActivityMainBinding
 import com.engineer.android.multimedia.ui.CreatorRootActivity
 import com.permissionx.guolindev.PermissionX
@@ -22,8 +23,12 @@ class MainActivity : AppCompatActivity() {
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        viewBinding.media.setOnClickListener {
+        viewBinding.audio.setOnClickListener {
             startActivity(Intent(this, SimpleMediaPlayerActivity::class.java))
+        }
+
+        viewBinding.video.setOnClickListener {
+            startActivity(Intent(this, SimpleVideoViewActivity::class.java))
         }
 
         viewBinding.decoder.setOnClickListener {

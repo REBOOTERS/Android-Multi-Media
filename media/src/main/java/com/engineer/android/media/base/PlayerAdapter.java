@@ -16,6 +16,8 @@
 
 package com.engineer.android.media.base;
 
+import android.view.SurfaceHolder;
+
 /**
  * Allows {@link com.engineer.android.media.ui.SimpleMediaPlayerActivity} to control media playback of {@link MediaPlayerHolder}.
  */
@@ -40,4 +42,6 @@ public interface PlayerAdapter {
     void initializeProgressCallback();
 
     void seekTo(int position);
+
+    void setDisplay(SurfaceHolder holder);
 }

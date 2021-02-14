@@ -23,9 +23,14 @@
     tools:ignore="HardcodedText">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/media"
+        android:id="@+id/audio"
         style="@style/IndexButton"
-        android:text="media" />
+        android:text="MediaPlayer" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/video"
+        style="@style/IndexButton"
+        android:text="VideoView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/decoder"

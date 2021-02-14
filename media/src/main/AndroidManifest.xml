@@ -3,7 +3,8 @@
     package="com.engineer.android.media">
 
     <application>
-        <activity android:name=".ui.FFmpegActivity"></activity>
+        <activity android:name=".ui.SimpleVideoViewActivity"></activity>
+        <activity android:name=".ui.FFmpegActivity" />
         <activity android:name=".opgles.SimpleGLVideoRenderActivity" />
         <activity android:name=".opgles.MultiGLVideoRenderActivity" />
         <activity android:name=".opgles.SimpleRenderActivity" />

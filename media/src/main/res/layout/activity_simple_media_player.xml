@@ -7,6 +7,12 @@
     tools:context=".ui.SimpleMediaPlayerActivity"
     tools:ignore="hardCodedText">
 
+    <SurfaceView
+        android:visibility="gone"
+        android:id="@+id/surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
     <ScrollView
         android:id="@+id/scroll_container"
         android:layout_width="match_parent"
@@ -44,7 +50,7 @@
             style="?attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_weight="1"
             android:text="Play" />
 
         <Button
