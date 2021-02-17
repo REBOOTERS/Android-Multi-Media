@@ -11,12 +11,13 @@ import com.engineer.android.media.base.MediaPlayerHolder
 import com.engineer.android.media.base.PlaybackInfoListener
 import com.engineer.android.media.base.PlayerAdapter
 import com.engineer.android.media.databinding.ActivitySimpleMediaPlayerBinding
+import com.engineer.android.media.gone
 import com.engineer.android.media.show
 import com.engineer.android.media.toast
 
 
 /**
- * https://www.cnblogs.com/senior-engineer/p/7867626.html
+ *  https://www.cnblogs.com/senior-engineer/p/7867626.html
  *
  * https://developer.android.google.cn/guide/topics/media/mediaplayer
  */
@@ -125,7 +126,10 @@ class SimpleMediaPlayerActivity : AppCompatActivity() {
         mPlayerAdapter.loadMedia(resId)
         Log.d(TAG, "onStart: create MediaPlayer")
         if (playVideo) {
+//            mPlayerAdapter.setDisplay(surfaceHolder)
             viewBinding.surfaceView.show()
+        } else {
+            viewBinding.surfaceView.gone()
         }
     }
 

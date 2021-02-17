@@ -13,7 +13,6 @@ class SimpleVideoViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivitySimpleVideoViewBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-
         viewBinding.videoView.setVideoPath(Constant.originalPath)
         val control = MediaController(this)
         viewBinding.videoView.setMediaController(control)
