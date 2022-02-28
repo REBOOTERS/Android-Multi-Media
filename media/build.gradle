@@ -21,7 +21,7 @@ android {
             }
         }
         ndk {
-            abiFilters 'armeabi-v7a'
+            abiFilters "${ext.abi}"
         }
     }
 
@@ -56,7 +56,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:${ext.appcompat}"
     implementation "androidx.core:core-ktx:${ext.core_ktx}"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
 
     // unit test
     testImplementation 'junit:junit:4.12'
