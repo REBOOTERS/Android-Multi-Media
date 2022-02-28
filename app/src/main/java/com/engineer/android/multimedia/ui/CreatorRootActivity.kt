@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,13 +19,11 @@ import com.engineer.android.multimedia.adapter.BitmapProvider
 import com.engineer.android.multimedia.adapter.Glide4Engine
 import com.engineer.android.multimedia.adapter.MergyHandler
 import com.engineer.android.multimedia.databinding.ActivityCreatorRootBinding
-import com.exozet.transcoder.mcvideoeditor.MediaCodecTranscoder
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import heart.`fun`.creator.task.AvcExecuteAsyncTask
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 
@@ -108,33 +105,33 @@ class CreatorRootActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("CheckResult")
-    private fun use_exozet() {
-
-        val path = Environment
-            .getExternalStorageDirectory()
-            .absolutePath + File.separator + "aaaa/"
-
-        var out = Environment
-            .getExternalStorageDirectory()
-            .absolutePath + File.separator + "aaaaa/test.mp4"
-
-        val frameFolder = Uri.parse(path)
-        val outputVideo = Uri.parse(out)
-
-        MediaCodecTranscoder.createVideoFromFrames(
-            frameFolder = frameFolder,
-            outputUri = outputVideo,
-            deleteFramesOnComplete = false
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.e("exo", "end==${it.duration}")
-            }, {
-                it.printStackTrace()
-            })
-    }
+//    @SuppressLint("CheckResult")
+//    private fun use_exozet() {
+//
+//        val path = Environment
+//            .getExternalStorageDirectory()
+//            .absolutePath + File.separator + "aaaa/"
+//
+//        var out = Environment
+//            .getExternalStorageDirectory()
+//            .absolutePath + File.separator + "aaaaa/test.mp4"
+//
+//        val frameFolder = Uri.parse(path)
+//        val outputVideo = Uri.parse(out)
+//
+//        MediaCodecTranscoder.createVideoFromFrames(
+//            frameFolder = frameFolder,
+//            outputUri = outputVideo,
+//            deleteFramesOnComplete = false
+//        )
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                Log.e("exo", "end==${it.duration}")
+//            }, {
+//                it.printStackTrace()
+//            })
+//    }
 
 
     // <editor-fold defaultstate="collapsed" desc="initView">
@@ -144,7 +141,7 @@ class CreatorRootActivity : AppCompatActivity() {
         viewBinding.list.adapter = adapter
         viewBinding.get.setOnClickListener { loadData() }
         viewBinding.go.setOnClickListener { go() }
-        viewBinding.exozet.setOnClickListener { use_exozet() }
+//        viewBinding.exozet.setOnClickListener { use_exozet() }
     }
     // </editor-fold>
 

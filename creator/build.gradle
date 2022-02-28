@@ -3,14 +3,11 @@ apply from: file('../libs.gradle')
 def ext = rootProject.ext
 android {
     compileSdkVersion ext.compileSdkVersion
-    buildToolsVersion ext.buildToolsVersion
 
 
     defaultConfig {
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 2
-        versionName "1.0.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

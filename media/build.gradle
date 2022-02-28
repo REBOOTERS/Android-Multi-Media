@@ -6,13 +6,10 @@ def ext = rootProject.ext
 
 android {
     compileSdkVersion ext.compileSdkVersion
-    buildToolsVersion ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -63,7 +60,7 @@ dependencies {
 
     // unit test
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     // unit test
 }
