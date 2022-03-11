@@ -10,8 +10,6 @@ ext {
     compileSdkVersion = 31
     minSdkVersion = 24
     targetSdkVersion = 29
-    // 用一个本地安装的版本，也可以改成自己 PC 上的版本
-    ndkVersion = "21.3.6528147"
 
 //    abi = "arm64-v8a"
     abi = "armeabi-v7a"
